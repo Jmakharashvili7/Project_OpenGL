@@ -4,6 +4,15 @@
 
 #include <iostream>
 #include <GL/glew.h>
+#include <fstream>
+#include <string>
+#include <sstream> 
+
+struct ShaderProgramSource
+{
+	std::string VertexSource;
+	std::string FragmentSource;
+};
 
 static unsigned int CompileShader(unsigned int type, const std::string& source)
 {
@@ -15,6 +24,8 @@ static unsigned int CompileShader(unsigned int type, const std::string& source)
 
 	// Pass in the source code to the shader and compile the shader (will replace previous shader code)
 	glShaderSource(id, 1, &src, nullptr);
+
+	//compile the shader and bind it to an ID
 	glCompileShader(id);
 
 	// temp variable result to hold the state of compile status
@@ -33,7 +44,7 @@ static unsigned int CompileShader(unsigned int type, const std::string& source)
 		glGetShaderInfoLog(id, length, &length, message);
 
 		// Let the user know which shader failed to compile
-		std::cout << "Failed to compile " << (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
+		std::cout << "Failed to compile"  << (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
 			<< "shader" << std::endl;
 
 		// print out the error 
@@ -70,6 +81,45 @@ static int CreateShader(const std::string& vertexShader, const std::string& frag
 	glDeleteShader(fShader);
 
 	return program;
+}
+
+static ShaderProgramSource ParseShader(const std::string& filepath)
+{
+	std::ifstream stream(filepath);
+
+	enum class ShaderType
+	{
+		NONE = -1, VERTEX = 0, FRAMGENT = 1
+	};
+
+	// string for the current line we're reading 
+	std::string line;
+
+	// string stream to store the file data
+	std::stringstream ss[2];
+
+	// variable to hold the shader type
+	ShaderType type = ShaderType::NONE;
+
+	// loop through the file 
+	while (getline(stream, line))
+	{
+		// Determine the shader type
+		if (line.find("#shader") != std::string::npos)
+		{
+			if (line.find("vertex") != std::string::npos)
+				type = ShaderType::VERTEX;
+			else if (line.find("fragment") != std::string::npos)
+				type = ShaderType::FRAMGENT;
+		}
+		// if there is no #shader we need to store the data 
+		else
+		{
+			ss[(int)type] << line << '\n';
+		}
+	}
+
+	return{ ss[0].str(), ss[1].str() };
 }
 
 #endif // SHADER_H
