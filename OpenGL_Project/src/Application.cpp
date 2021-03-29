@@ -5,6 +5,26 @@
 #include "StaticObjects.h"
 #include "structures.h"
 
+#define ASSERT(x) if (!(x)) __debugbreak();
+#define GLCall(x) GLClearError();\
+    x;\
+    ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+static void GLClearError()
+{
+    while (glGetError() != GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char* function, const char* file, int line)
+{
+    while (GLenum error = glGetError())
+    {
+        std::cerr << "[OpenGL Error] (" << error << "): " << function << " " << file << ":" << line << std::endl; 
+        return false;
+    }
+    return true;
+}
+
 int main(void)
 {
     GLFWwindow* window;
@@ -33,7 +53,7 @@ int main(void)
     {
         std::cerr << "GLEW could not initialized!" << std::endl;
         return -2;
-    }
+    } 
 
     float positions[] = {
         -0.5f, -0.5f, // 0
@@ -49,19 +69,19 @@ int main(void)
 
     // setup and bind the vertex buffer
     unsigned int vertex_buffer;
-    glGenBuffers(1, &vertex_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
-    glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
+    GLCall(glGenBuffers(1, &vertex_buffer));
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer));
+    GLCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
     // setup the layer of the buffer
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    GLCall(glEnableVertexAttribArray(0));
+    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
     
     // setup and bind the vertex buffer
     unsigned int indices_buffer;
-    glGenBuffers(1, &indices_buffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+    GLCall(glGenBuffers(1, &indices_buffer));
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_buffer));
+    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 
     // setup the shader
     ShaderProgramSource shader_src = ParseShader("res/shaders/Basic.Shader");
@@ -75,7 +95,7 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
         
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_1PASS_EXT, nullptr));
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
