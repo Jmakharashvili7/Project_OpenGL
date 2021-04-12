@@ -2,9 +2,11 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-#include <Windows.h>
-#include <gl/GL.h>
-#include <gl/GLU.h>
+#include <vector>
+
+#include <string>
+#include "GL/glew.h"
+#include "Renderer.h"
 
 struct Vector3 
 { 
@@ -110,4 +112,33 @@ struct Mesh
 		indexCount = 0;
 	}
 };
+
+struct VertexBufferElement
+{
+private:
+
+public:
+	unsigned int type;
+	unsigned int count;
+	unsigned char normalized;
+
+	static unsigned int GetSizeOfType(unsigned int type)
+	{
+		switch (type)
+		{
+		case GL_FLOAT:		   return 4;
+		case GL_UNSIGNED_INT:  return 4;
+		case GL_UNSIGNED_BYTE: return 1;
+		}
+		ASSERT(false);
+		return 0;
+	}
+};
+	
+struct ShaderProgramSource
+{
+	std::string VertexSource;
+	std::string FragmentShader;
+};
+
 #endif // STRUCTURES_H
