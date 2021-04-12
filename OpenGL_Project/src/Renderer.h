@@ -4,6 +4,10 @@
 
 #include <GL/glew.h>
 
+class VertexArray;
+class IndexBuffer;
+class Shader;
+
 // Debugging macros
 #define ASSERT(x) if (!(x)) __debugbreak();
 #define GLCall(x) GLClearError();\
@@ -23,6 +27,9 @@ bool GLLogCall(const char* function, const char* file, int line);
 
 class Renderer
 {
+public:
+    void Clear();
+    void Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const;
 };
 #endif // RENDERER_H
 

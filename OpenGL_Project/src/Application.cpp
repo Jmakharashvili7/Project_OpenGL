@@ -8,12 +8,12 @@
 #include "Renderer.h"
 #include "structures.h"
 
-#include "Shader.h"
-#include "StaticObjects.h"
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "VertexArray.h"
 #include "VertexBufferLayout.h"
+#include "VertexBuffer.h"
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Shader.h"
+
 
 int main(void)
 {
@@ -53,6 +53,8 @@ int main(void)
 
     // scope
     {
+        Renderer renderer;
+
         float positions[] = {
            -0.5f, -0.5f, // 0
             0.5f, -0.5f, // 1
@@ -83,12 +85,9 @@ int main(void)
        while (!glfwWindowShouldClose(window))
        {
            /* Render here */
-           glClear(GL_COLOR_BUFFER_BIT);
+           renderer.Clear();
             
-           va.Bind();
-           ib.Bind(); 
-
-           GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+           renderer.Draw(va, ib, shader);
 
            /* Swap front and back buffers */
            glfwSwapBuffers(window);
