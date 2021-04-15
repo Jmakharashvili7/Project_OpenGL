@@ -13,7 +13,10 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "Texture.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 int main(void)
 {
@@ -56,10 +59,10 @@ int main(void)
         Renderer renderer;
 
         float positions[] = {
-           -0.5f, -0.5f, // 0
-            0.5f, -0.5f, // 1
-            0.5f,  0.5f, // 2
-           -0.5f,  0.5f  // 3
+           -0.5f, -0.5f, 0.0f, 0.0f, // 0
+            0.5f, -0.5f, 1.0f, 0.0f, // 1
+            0.5f,  0.5f, 1.0f, 1.0f, // 2
+           -0.5f,  0.5f, 0.0f, 1.0f  // 3
         };
 
        unsigned int indices[] = {
@@ -68,18 +71,28 @@ int main(void)
        };
 
        VertexArray va;
-       VertexBuffer vb(positions, 4 * 2 * sizeof(float));
+       VertexBuffer vb(positions, 4 * 4 * sizeof(float));
 
        VertexBufferLayout layout;
+       layout.Push<float>(2);
        layout.Push<float>(2);
        va.AddBuffer(vb, layout);
 
        IndexBuffer ib(indices, 6);
 
+       // set the projection matrix to orgthographic matrix 
+       glm::mat4 proj = glm::ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
        Shader shader("res/shaders/Basic.Shader");
        shader.Bind();
        
-       shader.SetUniform4f("u_color", Vector4(0.2f, 0.3f, 0.8f, 1.0f));
+       shader.setVec4("u_color", 0.2f, 0.3f, 0.8f, 1.0f);
+
+       // setup the texture and bind it
+       Texture2D texture("res/textures/test.jpg");
+       texture.Bind();
+       // pass in uniform for texture (value must be matching the location of slot texture is bound to)
+       shader.setInt("u_texture", 0);
 
        /* Loop until the user closes the window */
        while (!glfwWindowShouldClose(window))
