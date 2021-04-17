@@ -51,12 +51,14 @@
     <ClCompile Include="src\external\glm\detail\glm.cpp">
       <Filter>External</Filter>
     </ClCompile>
-    <ClCompile Include="src\Mesh.cpp">
-      <Filter>External</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model.cpp">
       <Filter>Object Model Materials</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Object Model Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\IndexBuffer.h">
@@ -515,9 +517,6 @@
     <ClInclude Include="src\external\glm\ext\matrix_uint4x4_sized.hpp">
       <Filter>External</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh.h">
-      <Filter>External</Filter>
-    </ClInclude>
     <ClInclude Include="src\external\glm\gtx\mixed_product.hpp">
       <Filter>External</Filter>
     </ClInclude>
@@ -938,6 +937,11 @@
     <ClInclude Include="src\Model.h">
       <Filter>Object Model Materials</Filter>
     </ClInclude>
+    <ClInclude Include="src\Mesh.h">
+      <Filter>Object Model Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Constants.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\external\glm\gtx\wrap.inl">
@@ -1351,5 +1355,8 @@
     <None Include="res\Shaders\Basic.shader">
       <Filter>shaders</Filter>
     </None>
+    <None Include="res\Shaders\Backpack.shader" />
+    <None Include="res\Shaders\model_fs.shader" />
+    <None Include="res\Shaders\model_vs.shader" />
   </ItemGroup>
 </Project>

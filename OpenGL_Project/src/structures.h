@@ -38,6 +38,7 @@ struct Vertex {
 struct Texture {
 	unsigned int id;
 	std::string type;
+	std::string path; // store the path of the texture to compare with other textures
 };
 
 struct Vector3 
@@ -103,11 +104,6 @@ struct Material
 		this->specular = specular;
 		this->shininess = shininess;
 	}
-};
-
-struct Camera 
-{ 
-	Vector3 eye, center, up;
 };
 
 struct Color
