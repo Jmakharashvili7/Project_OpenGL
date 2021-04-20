@@ -44,7 +44,7 @@ int main()
     // initialize glfw library and check for any errors
     if (!glfwInit())
     {
-        std::cerr << "GLFW could not be initialized!" << std::endl;
+        LOG("GLFW could not be initialized!");
         return -1;
     }
 
@@ -60,7 +60,7 @@ int main()
     GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
+        LOG("Failed to create GLFW window");
         glfwTerminate();
         return -1;
     }
@@ -85,42 +85,36 @@ int main()
     stbi_set_flip_vertically_on_load(true);
 
     // configure global opengl state
-    // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
+
     // build and compile shaders
-    // -------------------------
     Shader ourShader("res/Shaders/model_vs.shader", "res/Shaders/model_fs.shader");
 
-    // load models
-    // -----------
-    Model ourModel((char*)"res/3D_Model/backpack/backpack.obj");
+    // Load the model
+    Model ourModel("res/3D_Model/Male.OBJ");
 
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    // render loop
-    // -----------
+    // Update loop
     while (!glfwWindowShouldClose(window))
     {
-        // per-frame time logic
-        // --------------------
+        // setup deltaTime
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
         // input
-        // -----
         processInput(window);
 
         // render
-        // ------
         glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // don't forget to enable shader before setting uniforms
-        ourShader.use();
+        // Bind the shader
+        ourShader.Bind();
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);

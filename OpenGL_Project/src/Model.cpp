@@ -6,7 +6,8 @@
 #include "Mesh.h"
 
 
-Model::Model(char* path, bool gamma) : gammaCorrection(gamma)
+Model::Model(std::string path, bool gamma) 
+	: gammaCorrection(gamma)
 {
 	LoadModel(path);
 }

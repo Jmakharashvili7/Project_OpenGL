@@ -473,9 +473,10 @@
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\Shaders\basicLightingFS.shader" />
+    <None Include="res\Shaders\basicLightingVS.shader" />
     <None Include="res\Shaders\model_fs.shader" />
     <None Include="res\Shaders\model_vs.shader" />
-    <None Include="res\Shaders\Backpack.shader" />
     <None Include="res\Shaders\Basic.shader" />
     <None Include="src\external\glm\detail\func_common.inl" />
     <None Include="src\external\glm\detail\func_common_simd.inl" />

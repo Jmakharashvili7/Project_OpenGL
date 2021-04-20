@@ -24,7 +24,7 @@ public:
 	std::string directory;
 	bool gammaCorrection;
 public:
-	Model(char* path, bool gamma = false);
+	Model(std::string path, bool gamma = false);
 	void Draw(Shader &shader);
 private:
 	void LoadModel(std::string path);
