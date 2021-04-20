@@ -1,31 +1,7 @@
-Solid State by HTML5 UP
-html5up.net | @ajlkn
-Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+An openGL application that loads most 3D models and renders them in 3D. 
 
+There are also Index buffer, Vertex buffer, and vertex array classes. All openGL calls are either wrappers in GLCall macro or have their own error checking setup to make sure errors are easier to track down. The macro prints out the line and file where the error happened and the error code to check for the error. 
 
-After a somewhat extended break from HTML5 UP (to work on a secret-ish new project --
-more on that later!) I'm back with a brand new design: Solid State, a slick new multi-
-pager that combines some of the ideas I've played with over at Pixelarity with an "angular"
-sort of look. Hope you dig it :)
+The application uses Modern OpenGL which means it requires proper shaders and vertex and index setup. Currently the camera moves with both mouse and keyboad input. Lighting has its own class which has two diffrent types of lighting available. 
 
-Demo images* courtesy of Unsplash, a radtastic collection of CC0 (public domain) images
-you can use for pretty much whatever.
-
-(* = not included)
-
-AJ
-aj@lkn.io | @ajlkn
-
-
-Credits:
-
-	Demo Images:
-		Unsplash (unsplash.com)
-
-	Icons:
-		Font Awesome (fontawesome.io)
-
-	Other:
-		jQuery (jquery.com)
-		Scrollex (github.com/ajlkn/jquery.scrollex)
-		Responsive Tools (github.com/ajlkn/responsive-tools)
+The default loaded model is a 3d base model of a person. There is also a backpack model available that can be directly loaded in. The backpack is setup so it doesnt need a lighting class to be lit up. The reason for this is the fact that it was used before the lighting class and was testing importing 3D Models.
