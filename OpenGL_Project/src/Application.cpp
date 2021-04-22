@@ -89,10 +89,10 @@ int main()
 
 
     // build and compile shaders
-    Shader ourShader("res/Shaders/model_vs.shader", "res/Shaders/model_fs.shader");
+    Shader main_shader("res/Shaders/model_vs.shader", "res/Shaders/model_fs.shader");
 
     // Load the model
-    Model ourModel("res/3D_Model/Male.OBJ");
+    Model male_human_model("res/3D_Model/backpack/Backpack.obj");
 
 
     // draw in wireframe
@@ -114,20 +114,20 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Bind the shader
-        ourShader.Bind();
+        main_shader.Bind();
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
+        main_shader.setMat4("projection", projection);
+        main_shader.setMat4("view", view);
 
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-        ourShader.setMat4("model", model);
-        ourModel.Draw(ourShader);
+        main_shader.setMat4("model", model);
+        male_human_model.Draw(main_shader);
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
